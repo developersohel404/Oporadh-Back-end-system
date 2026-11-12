@@ -1,0 +1,352 @@
+[
+  {
+    "code": "CHADABAJI",
+    "name": "Chadabaji",
+    "nameBn": "চাঁদাবাজি",
+    "description": "বাধ্যতামূলকভাবে চাঁদা আদায় করা",
+    "isActive": true
+  },
+  {
+    "code": "JOUNO_HOYRANI",
+    "name": "Jouno Hoyrani",
+    "nameBn": "যৌন হয়রানি",
+    "description": "যৌন হয়রানি বা অশ্লীল আচরণ",
+    "isActive": true
+  },
+  {
+    "code": "KISHOR_GANG",
+    "name": "Kishor Gang",
+    "nameBn": "কিশোর গ্যাং",
+    "description": "কিশোর গ্যাং-এর অপরাধমূলক কার্যকলাপ",
+    "isActive": true
+  },
+  {
+    "code": "JAMIN_DOKHOL",
+    "name": "Jamin Dokhol",
+    "nameBn": "জমি দখল",
+    "description": "অবৈধভাবে জমি দখল করা",
+    "isActive": true
+  },
+  {
+    "code": "CHURI",
+    "name": "Churi",
+    "nameBn": "চুরি",
+    "description": "মালামাল চুরি",
+    "isActive": true
+  },
+  {
+    "code": "DAKATI",
+    "name": "Dakati",
+    "nameBn": "ডাকাতি",
+    "description": "সশস্ত্র ডাকাতি",
+    "isActive": true
+  },
+  {
+    "code": "MUGGING",
+    "name": "Mugging",
+    "nameBn": "মগিং",
+    "description": "পথে কাউকে থামিয়ে ছিনতাই",
+    "isActive": true
+  },
+  {
+    "code": "MARA_MARI",
+    "name": "Mara Mari",
+    "nameBn": "মারা-মারি",
+    "description": "মারামারি বা সংঘর্ষ",
+    "isActive": true
+  },
+  {
+    "code": "HUMKI",
+    "name": "Humki",
+    "nameBn": "হুমকি",
+    "description": "হুমকি দেওয়া বা ভয় দেখানো",
+    "isActive": true
+  },
+  {
+    "code": "NARI_NIRJATON",
+    "name": "Nari Nirjaton",
+    "nameBn": "নারী নির্যাতন",
+    "description": "নারীদের প্রতি নির্যাতন",
+    "isActive": true
+  },
+  {
+    "code": "SHISHU_NIRJATON",
+    "name": "Shishu Nirjaton",
+    "nameBn": "শিশু নির্যাতন",
+    "description": "শিশুদের প্রতি নির্যাতন",
+    "isActive": true
+  },
+  {
+    "code": "DOMESTIC_VIOLENCE",
+    "name": "Domestic Violence",
+    "nameBn": "পারিবারিক সহিংসতা",
+    "description": "পরিবারের ভিতরে সহিংসতা",
+    "isActive": true
+  },
+  {
+    "code": "DRUG_RELATED",
+    "name": "Drug Related",
+    "nameBn": "মাদক সংক্রান্ত",
+    "description": "মাদক দ্রব্য সংক্রান্ত অপরাধ",
+    "isActive": true
+  },
+  {
+    "code": "ILLEGAL_WEAPON",
+    "name": "Illegal Weapon",
+    "nameBn": "অবৈধ অস্ত্র",
+    "description": "অবৈধ অস্ত্র রাখা বা ব্যবহার",
+    "isActive": true
+  },
+  {
+    "code": "HUMAN_TRAFFICKING",
+    "name": "Human Trafficking",
+    "nameBn": "মানব পাচার",
+    "description": "মানব পাচার",
+    "isActive": true
+  },
+  {
+    "code": "CYBER_CRIME",
+    "name": "Cyber Crime",
+    "nameBn": "সাইবার অপরাধ",
+    "description": "ইন্টারনেট বা কম্পিউটার সংক্রান্ত অপরাধ",
+    "isActive": true
+  },
+  {
+    "code": "ONLINE_FRAUD",
+    "name": "Online Fraud",
+    "nameBn": "অনলাইন প্রতারণা",
+    "description": "অনলাইনে প্রতারণা",
+    "isActive": true
+  },
+  {
+    "code": "BLACKMAIL",
+    "name": "Blackmail",
+    "nameBn": "ব্ল্যাকমেইল",
+    "description": "হুমকি দিয়ে টাকা বা সুবিধা আদায়",
+    "isActive": true
+  },
+  {
+    "code": "EXTORTION",
+    "name": "Extortion",
+    "nameBn": "চাঁদাবাজি (Extortion)",
+    "description": "চাঁদাবাজি বা জোরপূর্বক টাকা আদায়",
+    "isActive": true
+  },
+  {
+    "code": "VANDALISM",
+    "name": "Vandalism",
+    "nameBn": "ভাঙচুর",
+    "description": "সরকারি বা ব্যক্তিগত সম্পত্তি ভাঙচুর",
+    "isActive": true
+  },
+  {
+    "code": "ILLEGAL_OCCUPATION",
+    "name": "Illegal Occupation",
+    "nameBn": "অবৈধ দখল",
+    "description": "অবৈধভাবে দখল করা",
+    "isActive": true
+  },
+  {
+    "code": "CORRUPTION",
+    "name": "Corruption",
+    "nameBn": "দুর্নীতি",
+    "description": "সরকারি বা বেসরকারি দুর্নীতি",
+    "isActive": true
+  },
+  {
+    "code": "BRIBERY",
+    "name": "Bribery",
+    "nameBn": "ঘুষ",
+    "description": "ঘুষ দেওয়া বা নেওয়া",
+    "isActive": true
+  },
+  {
+    "code": "ROAD_CRIME",
+    "name": "Road Crime",
+    "nameBn": "সড়ক অপরাধ",
+    "description": "রাস্তায় সংঘটিত অপরাধ (ছিনতাই, রেসিং ইত্যাদি)",
+    "isActive": true
+  },
+  {
+    "code": "MISSING_PERSON",
+    "name": "Missing Person",
+    "nameBn": "নিখোঁজ ব্যক্তি",
+    "description": "কেউ নিখোঁজ হয়েছে",
+    "isActive": true
+  },
+  {
+    "code": "KIDNAPPING",
+    "name": "Kidnapping",
+    "nameBn": "অপহরণ",
+    "description": "কাউকে অপহরণ করা",
+    "isActive": true
+  },
+  {
+    "code": "SNATCHING",
+    "name": "Snatching",
+    "nameBn": "ছিনতাই",
+    "description": "পথে জোর করে মালামাল ছিনিয়ে নেওয়া",
+    "isActive": true
+  },
+  {
+    "code": "STALKING",
+    "name": "Stalking",
+    "nameBn": "পিছু ধাওয়া",
+    "description": "কাউকে গোপনে পিছু ধাওয়া বা অনুসরণ",
+    "isActive": true
+  },
+  {
+    "code": "EVE_TEASING",
+    "name": "Eve Teasing",
+    "nameBn": "ইভ টিজিং",
+    "description": "মেয়েদের উত্ত্যক্ত করা",
+    "isActive": true
+  },
+  {
+    "code": "MURDER",
+    "name": "Murder",
+    "nameBn": "খুন",
+    "description": "হত্যাকাণ্ড",
+    "isActive": true
+  },
+  {
+    "code": "ATTEMPTED_MURDER",
+    "name": "Attempted Murder",
+    "nameBn": "খুনের চেষ্টা",
+    "description": "খুন করার চেষ্টা",
+    "isActive": true
+  },
+  {
+    "code": "ARSON",
+    "name": "Arson",
+    "nameBn": "অগ্নিসংযোগ",
+    "description": "পুড়িয়ে দেওয়া বা আগুন লাগানো",
+    "isActive": true
+  },
+  {
+    "code": "LAND_GRABBING",
+    "name": "Land Grabbing",
+    "nameBn": "ভূমি দখল",
+    "description": "অবৈধভাবে জমি দখল",
+    "isActive": true
+  },
+  {
+    "code": "SUICIDE_INSTIGATION",
+    "name": "Suicide Instigation",
+    "nameBn": "আত্মহত্যায় প্ররোচনা",
+    "description": "কাউকে আত্মহত্যায় প্ররোচনা দেওয়া",
+    "isActive": true
+  },
+  {
+    "code": "CHILD_MARRIAGE",
+    "name": "Child Marriage",
+    "nameBn": "বাল্যবিবাহ",
+    "description": "১৮ বছরের নিচে বিয়ে দেওয়া",
+    "isActive": true
+  },
+  {
+    "code": "DOWRY",
+    "name": "Dowry",
+    "nameBn": "যৌতুক",
+    "description": "যৌতুকের জন্য নির্যাতন",
+    "isActive": true
+  },
+  {
+    "code": "FAKE_CURRENCY",
+    "name": "Fake Currency",
+    "nameBn": "জাল মুদ্রা",
+    "description": "জাল টাকা তৈরি বা ব্যবহার",
+    "isActive": true
+  },
+  {
+    "code": "ORGANIZED_CRIME",
+    "name": "Organized Crime",
+    "nameBn": "সংগঠিত অপরাধ",
+    "description": "সংগঠিত অপরাধমূলক কার্যকলাপ",
+    "isActive": true
+  },
+  {
+    "code": "GAN_RAPE",
+    "name": "Gang Rape",
+    "nameBn": "দলবদ্ধ ধর্ষণ",
+    "description": "দলবদ্ধভাবে ধর্ষণ",
+    "isActive": true
+  },
+  {
+    "code": "RAPE",
+    "name": "Rape",
+    "nameBn": "ধর্ষণ",
+    "description": "ধর্ষণ",
+    "isActive": true
+  },
+  {
+    "code": "SEXUAL_HARASSMENT",
+    "name": "Sexual Harassment",
+    "nameBn": "যৌন নিপীড়ন",
+    "description": "যৌন নিপীড়ন বা হয়রানি",
+    "isActive": true
+  },
+  {
+    "code": "PUBLIC_NUISANCE",
+    "name": "Public Nuisance",
+    "nameBn": "জনসাধারণের অসুবিধা",
+    "description": "জনসাধারণের জন্য অসুবিধা সৃষ্টি",
+    "isActive": true
+  },
+  {
+    "code": "NOISE_POLLUTION",
+    "name": "Noise Pollution",
+    "nameBn": "শব্দ দূষণ",
+    "description": "উচ্চ শব্দে শব্দ দূষণ",
+    "isActive": true
+  },
+  {
+    "code": "ENVIRONMENTAL_CRIME",
+    "name": "Environmental Crime",
+    "nameBn": "পরিবেশ অপরাধ",
+    "description": "পরিবেশের ক্ষতি করে এমন কাজ",
+    "isActive": true
+  },
+  {
+    "code": "WILDLIFE_CRIME",
+    "name": "Wildlife Crime",
+    "nameBn": "বন্যপ্রাণী অপরাধ",
+    "description": "বন্যপ্রাণী শিকার বা পাচার",
+    "isActive": true
+  },
+  {
+    "code": "TRAFFIC_VIOLATION",
+    "name": "Traffic Violation",
+    "nameBn": "ট্রাফিক আইন লঙ্ঘন",
+    "description": "ট্রাফিক আইন না মানা",
+    "isActive": true
+  },
+  {
+    "code": "GAMBLING",
+    "name": "Gambling",
+    "nameBn": "জুয়া",
+    "description": "অবৈধ জুয়া খেলা",
+    "isActive": true
+  },
+  {
+    "code": "PROSTITUTION",
+    "name": "Prostitution",
+    "nameBn": "পতিতাবৃত্তি",
+    "description": "অবৈধ পতিতাবৃত্তি",
+    "isActive": true
+  },
+  {
+    "code": "COUNTERFEITING",
+    "name": "Counterfeiting",
+    "nameBn": "জালকরণ",
+    "description": "নকল পণ্য বা কাগজ তৈরি",
+    "isActive": true
+  },
+  {
+    "code": "OTHER",
+    "name": "Other",
+    "nameBn": "অন্যান্য",
+    "description": "অন্যান্য অপরাধ",
+    "isActive": true
+  }
+]

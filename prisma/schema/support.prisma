@@ -1,0 +1,53 @@
+model SupportTicket {
+  id           String          @id @default(uuid())
+  userId       String
+  assignedToId String?
+  subject      String
+  category     SupportCategory
+  message      String
+  attachment   String?
+  status       SupportStatus   @default(OPEN)
+
+  divisionId String?
+  districtId String?
+  upazilaId  String?
+
+  escalatedToAdminId String?
+  escalatedAt        DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user        User  @relation("UserTickets", fields: [userId], references: [id], onDelete: Cascade)
+  assignedTo  User? @relation("AssignedTickets", fields: [assignedToId], references: [id], onDelete: SetNull)
+  escalatedTo User? @relation("EscalatedTickets", fields: [escalatedToAdminId], references: [id], onDelete: SetNull)
+
+  division Division? @relation(fields: [divisionId], references: [id])
+  district District? @relation(fields: [districtId], references: [id])
+  upazila  Upazila?  @relation(fields: [upazilaId], references: [id])
+
+  messages SupportMessage[]
+
+  @@index([userId])
+  @@index([status])
+  @@index([assignedToId])
+  @@index([divisionId, districtId, upazilaId])
+  @@index([createdAt])
+}
+
+model SupportMessage {
+  id         String   @id @default(uuid())
+  ticketId   String
+  senderId   String
+  message    String
+  attachment String?
+  isInternal Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  ticket SupportTicket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  sender User          @relation(fields: [senderId], references: [id], onDelete: Cascade)
+
+  @@index([ticketId])
+  @@index([senderId])
+  @@index([createdAt])
+}

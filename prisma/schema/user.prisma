@@ -1,0 +1,137 @@
+// ============================================================
+// USER — Section 37
+// Auth (Email-based + Confirmation Link)
+// Location: Division → District → Upazila → { Union | Pourashava }
+// ============================================================
+
+model User {
+  id String @id @default(uuid())
+
+  // === AUTH ===
+  email         String  @unique
+  emailVerified Boolean @default(false)
+  passwordHash  String
+  phone         String?
+
+  // === ROLE & STATUS ===
+  role   Role       @default(USER)
+  status UserStatus @default(PENDING_VERIFICATION)
+
+  // === LOCATION ===
+  divisionId   String?
+  districtId   String?
+  upazilaId    String?
+  unionId      String?
+  pourashavaId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // === LOCATION RELATIONS ===
+  division   Division?   @relation(fields: [divisionId], references: [id])
+  district   District?   @relation(fields: [districtId], references: [id])
+  upazila    Upazila?    @relation(fields: [upazilaId], references: [id])
+  union      Union?      @relation(fields: [unionId], references: [id])
+  pourashava Pourashava? @relation(fields: [pourashavaId], references: [id])
+
+  // === AUTH RELATIONS ===
+  profile            UserProfile?
+  refreshTokens      RefreshToken[]
+  emailVerifications EmailVerification[]
+
+  // === CRIME RELATIONS ===
+  reports        CrimeReport[]
+  reportComments ReportComment[]
+  reportReviews  ReportReview[]
+
+  // === CONTENT RELATIONS ===
+  newsComments NewsComment[]
+  news         News[]        @relation("NewsPublisher")
+
+  // === COMMUNICATION RELATIONS ===
+  notifications          Notification[]
+  conversations          Conversation[] @relation("UserConversations")
+  moderatorConversations Conversation[] @relation("ModeratorConversations")
+  messages               Message[]
+
+  // === SUPPORT RELATIONS ===
+  supportTickets   SupportTicket[]  @relation("UserTickets")
+  assignedTickets  SupportTicket[]  @relation("AssignedTickets")
+  escalatedTickets SupportTicket[]  @relation("EscalatedTickets")
+  supportMessages  SupportMessage[]
+
+  // === RESTRICTION RELATIONS ===
+  restrictions       Restriction[]        @relation("UserRestrictions")
+  restrictionsGiven  Restriction[]        @relation("RestrictionCreator")
+  restrictionHistory RestrictionHistory[]
+
+  // === MODERATOR RELATIONS ===
+  moderatorProfile      ModeratorProfile?
+  moderatorApplications ModeratorApplication[]
+
+  // === AUDIT RELATIONS ===
+  auditLogs AuditLog[]
+
+  // === INDEXES (Section 79) ===
+  @@index([role, status])
+  @@index([divisionId, districtId, upazilaId])
+  @@index([unionId])
+  @@index([pourashavaId])
+  @@index([email])
+}
+
+// ============================================================
+// USER PROFILE
+// ============================================================
+
+model UserProfile {
+  id     String @id @default(uuid())
+  userId String @unique
+
+  name      String
+  nickname  String?
+  age       Int?
+  avatarUrl String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// ============================================================
+// REFRESH TOKEN
+// ============================================================
+
+model RefreshToken {
+  id        String    @id @default(uuid())
+  userId    String
+  tokenHash String    @unique
+  expiresAt DateTime
+  revokedAt DateTime?
+  createdAt DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+// ============================================================
+// EMAIL VERIFICATION — Link-based (OTP নয়)
+// ============================================================
+
+model EmailVerification {
+  id         String              @id @default(uuid())
+  userId     String
+  tokenHash  String              @unique
+  purpose    VerificationPurpose @default(EMAIL_VERIFY)
+  expiresAt  DateTime
+  verifiedAt DateTime?
+  createdAt  DateTime            @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([tokenHash])
+  @@index([purpose])
+}

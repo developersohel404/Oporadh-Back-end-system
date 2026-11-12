@@ -1,0 +1,173 @@
+<!doctype html>
+<html>
+  <head>
+    <title>OPORADH Socket Test</title>
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <style>
+      body {
+        font-family: Arial;
+        padding: 20px;
+        max-width: 800px;
+      }
+      .box {
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 4px;
+      }
+      input,
+      button,
+      textarea {
+        padding: 8px;
+        margin: 4px;
+      }
+      .log {
+        background: #f5f5f5;
+        padding: 10px;
+        height: 300px;
+        overflow-y: auto;
+        font-family: monospace;
+        font-size: 12px;
+      }
+      .msg {
+        padding: 4px;
+        margin: 2px 0;
+        border-bottom: 1px solid #eee;
+      }
+      .incoming {
+        color: green;
+      }
+      .outgoing {
+        color: blue;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>OPORADH Socket.IO Test</h2>
+
+    <div class="box">
+      <h3>Login</h3>
+      <input id="email" placeholder="Email" value="user1@example.com" />
+      <input id="password" type="password" placeholder="Password" value="test12345" />
+      <button onclick="login()">Login</button>
+      <button onclick="connectSocket()">Connect Socket</button>
+      <div id="authStatus"></div>
+    </div>
+
+    <div class="box">
+      <h3>Conversation</h3>
+      <input id="conversationId" placeholder="Conversation ID" style="width: 400px" />
+      <button onclick="joinConversation()">Join</button>
+      <div id="joinStatus"></div>
+    </div>
+
+    <div class="box">
+      <h3>Send Message</h3>
+      <textarea id="msgInput" placeholder="Your message" rows="2" style="width: 100%"></textarea>
+      <button onclick="sendMessage()">Send</button>
+      <button onclick="startTyping()">Typing Start</button>
+      <button onclick="stopTyping()">Typing Stop</button>
+    </div>
+
+    <div class="box">
+      <h3>Log</h3>
+      <div class="log" id="log"></div>
+      <button onclick="document.getElementById('log').innerHTML = ''">Clear</button>
+    </div>
+
+    <script>
+      let socket = null;
+
+      function log(msg, cls = '') {
+        const logEl = document.getElementById('log');
+        const div = document.createElement('div');
+        div.className = 'msg ' + cls;
+        div.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+        logEl.appendChild(div);
+        logEl.scrollTop = logEl.scrollHeight;
+      }
+
+      async function login() {
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const res = await fetch('http://localhost:5000/api/auth/login', {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password }),
+        });
+        const data = await res.json();
+        document.getElementById('authStatus').textContent = data.message;
+        log('Login: ' + data.message);
+      }
+
+      function connectSocket() {
+        socket = io('http://localhost:5000', {
+          withCredentials: true,
+          transports: ['websocket', 'polling'],
+        });
+
+        socket.on('connect', () => log('✅ Socket connected', 'incoming'));
+        socket.on('connect_error', (err) => log('❌ ' + err.message, 'incoming'));
+        socket.on('disconnect', (reason) => log('🔌 Disconnected: ' + reason));
+
+        socket.on('message:new', (msg) => {
+          log(
+            '📩 Message: ' + msg.message + ' (from ' + msg.sender?.profile?.name + ')',
+            'incoming'
+          );
+        });
+
+        socket.on('message:read', (data) => {
+          log('👀 Read: ' + JSON.stringify(data), 'incoming');
+        });
+
+        socket.on('typing:start', (data) => {
+          log('✏️ Typing started by ' + data.userId, 'incoming');
+        });
+
+        socket.on('typing:stop', (data) => {
+          log('⏹️ Typing stopped by ' + data.userId, 'incoming');
+        });
+
+        socket.on('notification:new', (data) => {
+          log('🔔 Notification: ' + JSON.stringify(data), 'incoming');
+        });
+      }
+
+      function joinConversation() {
+        const conversationId = document.getElementById('conversationId').value;
+        socket.emit('conversation:join', { conversationId }, (response) => {
+          document.getElementById('joinStatus').textContent = response.success
+            ? '✅ Joined'
+            : '❌ ' + response.error;
+          log('Join: ' + JSON.stringify(response));
+        });
+      }
+
+      function sendMessage() {
+        const conversationId = document.getElementById('conversationId').value;
+        const message = document.getElementById('msgInput').value;
+
+        socket.emit('message:send', { conversationId, message }, (response) => {
+          if (response.error) {
+            log('❌ Send failed: ' + response.error, 'outgoing');
+          } else {
+            log('📤 Sent: ' + message, 'outgoing');
+            document.getElementById('msgInput').value = '';
+          }
+        });
+      }
+
+      function startTyping() {
+        const conversationId = document.getElementById('conversationId').value;
+        socket.emit('typing:start', { conversationId });
+      }
+
+      function stopTyping() {
+        const conversationId = document.getElementById('conversationId').value;
+        socket.emit('typing:stop', { conversationId });
+      }
+    </script>
+  </body>
+</html>

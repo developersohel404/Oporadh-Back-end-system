@@ -1,0 +1,94 @@
+// ============================================================
+// LOCATION SYSTEM — Section 11
+// Division → District → Upazila → { Union, Pourashava }
+// ============================================================
+
+model Division {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  nameBn    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  districts      District[]
+  users          User[]
+  moderators     ModeratorProfile[]
+  applications   ModeratorApplication[]
+  reports        CrimeReport[]
+  news           News[]
+  supportTickets SupportTicket[]
+
+  @@index([name])
+}
+
+model District {
+  id         String   @id @default(uuid())
+  name       String
+  nameBn     String?
+  divisionId String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  division       Division               @relation(fields: [divisionId], references: [id], onDelete: Cascade)
+  upazilas       Upazila[]
+  users          User[]
+  moderators     ModeratorProfile[]
+  applications   ModeratorApplication[]
+  reports        CrimeReport[]
+  news           News[]
+  supportTickets SupportTicket[]
+
+  @@unique([divisionId, name])
+  @@index([divisionId])
+}
+
+model Upazila {
+  id         String   @id @default(uuid())
+  name       String
+  nameBn     String?
+  districtId String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  district       District               @relation(fields: [districtId], references: [id], onDelete: Cascade)
+  unions         Union[]
+  pourashavas    Pourashava[]
+  users          User[]
+  moderators     ModeratorProfile[]
+  applications   ModeratorApplication[]
+  reports        CrimeReport[]
+  supportTickets SupportTicket[]
+
+  @@unique([districtId, name])
+  @@index([districtId])
+}
+
+model Union {
+  id        String   @id @default(uuid())
+  name      String
+  nameBn    String?
+  upazilaId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  upazila Upazila @relation(fields: [upazilaId], references: [id], onDelete: Cascade)
+  users   User[]
+
+  @@unique([upazilaId, name])
+  @@index([upazilaId])
+}
+
+model Pourashava {
+  id        String   @id @default(uuid())
+  name      String
+  nameBn    String?
+  upazilaId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  upazila Upazila @relation(fields: [upazilaId], references: [id], onDelete: Cascade)
+  users   User[]
+
+  @@unique([upazilaId, name])
+  @@index([upazilaId])
+}

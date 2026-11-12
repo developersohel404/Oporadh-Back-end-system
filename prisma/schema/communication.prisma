@@ -1,0 +1,52 @@
+model Conversation {
+  id          String             @id @default(uuid())
+  reportId    String?
+  userId      String
+  moderatorId String
+  status      ConversationStatus @default(ACTIVE)
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+
+  report    CrimeReport? @relation(fields: [reportId], references: [id], onDelete: SetNull)
+  user      User         @relation("UserConversations", fields: [userId], references: [id])
+  moderator User         @relation("ModeratorConversations", fields: [moderatorId], references: [id])
+  messages  Message[]
+
+  @@index([userId])
+  @@index([moderatorId])
+  @@index([reportId])
+}
+
+model Message {
+  id             String   @id @default(uuid())
+  conversationId String
+  senderId       String
+  message        String
+  attachment     String?
+  isRead         Boolean  @default(false)
+  createdAt      DateTime @default(now())
+
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  sender       User         @relation(fields: [senderId], references: [id])
+
+  @@index([conversationId])
+  @@index([senderId])
+  @@index([isRead])
+}
+
+model Notification {
+  id        String           @id @default(uuid())
+  userId    String
+  type      NotificationType
+  title     String
+  message   String
+  data      Json?
+  isRead    Boolean          @default(false)
+  createdAt DateTime         @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([isRead])
+  @@index([userId, isRead])
+}

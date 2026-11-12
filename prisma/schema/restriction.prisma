@@ -1,0 +1,39 @@
+model Restriction {
+  id          String          @id @default(uuid())
+  userId      String
+  type        RestrictionType
+  reason      String
+  startAt     DateTime        @default(now())
+  endAt       DateTime?
+  createdById String
+  isActive    Boolean         @default(true)
+  removedAt   DateTime?
+  removedById String?
+
+  createdAt DateTime @default(now())
+
+  user      User                 @relation("UserRestrictions", fields: [userId], references: [id], onDelete: Cascade)
+  createdBy User                 @relation("RestrictionCreator", fields: [createdById], references: [id])
+  history   RestrictionHistory[]
+
+  @@index([userId])
+  @@index([isActive])
+  @@index([type])
+}
+
+model RestrictionHistory {
+  id            String   @id @default(uuid())
+  restrictionId String
+  userId        String
+  action        String
+  reason        String?
+  performedById String?
+  metadata      Json?
+  createdAt     DateTime @default(now())
+
+  restriction Restriction @relation(fields: [restrictionId], references: [id], onDelete: Cascade)
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([restrictionId])
+  @@index([userId])
+}

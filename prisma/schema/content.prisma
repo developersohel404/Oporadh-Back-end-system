@@ -1,0 +1,48 @@
+model News {
+  id            String     @id @default(uuid())
+  title         String
+  slug          String     @unique
+  content       String
+  coverImage    String?
+  category      String?
+  status        NewsStatus @default(DRAFT)
+  publishedById String?
+  publishedAt   DateTime?
+
+  divisionId String?
+  districtId String?
+  // upazila নেই — Upazila-তে news relation নেই
+
+  viewCount Int @default(0)
+  likeCount Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  publishedBy User?     @relation("NewsPublisher", fields: [publishedById], references: [id])
+  division    Division? @relation(fields: [divisionId], references: [id])
+  district    District? @relation(fields: [districtId], references: [id])
+
+  comments NewsComment[]
+
+  @@index([status])
+  @@index([slug])
+  @@index([publishedAt])
+}
+
+model NewsComment {
+  id        String        @id @default(uuid())
+  newsId    String
+  userId    String
+  content   String
+  status    CommentStatus @default(VISIBLE)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  news News @relation(fields: [newsId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([newsId])
+  @@index([userId])
+  @@index([status])
+}

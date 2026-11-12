@@ -1,0 +1,60 @@
+model ModeratorProfile {
+  id     String          @id @default(uuid())
+  userId String          @unique
+  level  ModeratorLevel
+  status ModeratorStatus @default(PENDING)
+
+  divisionId String?
+  districtId String?
+  upazilaId  String?
+
+  approvedById  String?
+  approvedAt    DateTime?
+  suspendedAt   DateTime?
+  removedAt     DateTime?
+  removalReason String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  division Division? @relation(fields: [divisionId], references: [id])
+  district District? @relation(fields: [districtId], references: [id])
+  upazila  Upazila?  @relation(fields: [upazilaId], references: [id])
+
+  @@index([level])
+  @@index([status])
+  @@index([divisionId, districtId, upazilaId])
+}
+
+model ModeratorApplication {
+  id         String   @id @default(uuid())
+  userId     String
+  fullName   String
+  phone      String?
+  email      String
+  experience String?
+  reason     String?
+  documents  String[]
+
+  level      ModeratorLevel
+  divisionId String?
+  districtId String?
+  upazilaId  String?
+
+  status          ApplicationStatus @default(PENDING)
+  rejectionReason String?
+  reviewedById    String?
+  reviewedAt      DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  division Division? @relation(fields: [divisionId], references: [id])
+  district District? @relation(fields: [districtId], references: [id])
+  upazila  Upazila?  @relation(fields: [upazilaId], references: [id])
+
+  @@index([status])
+  @@index([level, divisionId, districtId, upazilaId])
+}

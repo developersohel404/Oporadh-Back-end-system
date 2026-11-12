@@ -1,0 +1,147 @@
+// ============================================================
+// CRIME — Section 10, 12, 13
+// ============================================================
+
+model CrimeCategory {
+  id          String   @id @default(uuid())
+  code        String   @unique
+  name        String
+  nameBn      String
+  description String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  reports CrimeReport[]
+
+  @@index([isActive])
+}
+
+// ============================================================
+// CRIME REPORT — Section 12, 13
+// ============================================================
+
+model CrimeReport {
+  id         String @id @default(uuid())
+  reporterId String
+  categoryId String
+
+  title           String
+  description     String
+  incidentAddress String?
+  incidentDate    DateTime
+  incidentTime    String?
+  suspectName     String?
+
+  latitude  Float?
+  longitude Float?
+
+  // Location — Section 11 (auto from user)
+  divisionId String
+  districtId String
+  upazilaId  String
+
+  // Lifecycle — Section 13
+  status   ReportStatus   @default(SUBMITTED)
+  priority ReportPriority @default(NORMAL)
+
+  rejectionReason String?
+  reviewedById    String?
+  reviewedAt      DateTime?
+  publishedAt     DateTime?
+  closedAt        DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // === Relations ===
+  reporter User          @relation(fields: [reporterId], references: [id])
+  category CrimeCategory @relation(fields: [categoryId], references: [id])
+
+  division Division @relation(fields: [divisionId], references: [id])
+  district District @relation(fields: [districtId], references: [id])
+  upazila  Upazila  @relation(fields: [upazilaId], references: [id])
+
+  media         ReportMedia[]
+  reviews       ReportReview[]
+  comments      ReportComment[]
+  conversations Conversation[]
+
+  // === Section 79 indexes ===
+  @@index([status])
+  @@index([categoryId])
+  @@index([divisionId, districtId, upazilaId])
+  @@index([createdAt])
+  @@index([priority])
+  @@index([reporterId])
+}
+
+// ============================================================
+// REPORT MEDIA — Section 15, 16, 68
+// ImgBB-তে ছবি হোস্ট করা হয়, DB-তে শুধু URL + metadata
+// ============================================================
+
+model ReportMedia {
+  id       String @id @default(uuid())
+  reportId String
+
+  // === URLs (ImgBB) ===
+  originalUrl  String // raw image URL (privileged)
+  processedUrl String? // blurred image URL (public)
+
+  // === ImgBB delete URLs (Section 15 — privileged only) ===
+  originalDeleteUrl  String? // ImgBB delete hash for original
+  processedDeleteUrl String? // ImgBB delete hash for processed
+
+  // === Metadata (Section 16) ===
+  mediaType  String // IMAGE
+  mimeType   String // image/jpeg, image/png
+  fileSize   Int // bytes
+  fileHash   String // SHA-256 (Section 68)
+  uploadedAt DateTime @default(now())
+
+  report CrimeReport @relation(fields: [reportId], references: [id], onDelete: Cascade)
+
+  @@index([reportId])
+}
+
+// ============================================================
+// REPORT REVIEW — Moderator actions
+// ============================================================
+
+model ReportReview {
+  id         String           @id @default(uuid())
+  reportId   String
+  reviewerId String
+  action     ModerationAction
+  note       String?
+  isInternal Boolean          @default(true)
+  createdAt  DateTime         @default(now())
+
+  report   CrimeReport @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  reviewer User        @relation(fields: [reviewerId], references: [id])
+
+  @@index([reportId])
+  @@index([reviewerId])
+}
+
+// ============================================================
+// REPORT COMMENT — Section 28
+// ============================================================
+
+model ReportComment {
+  id        String        @id @default(uuid())
+  reportId  String
+  userId    String
+  content   String
+  status    CommentStatus @default(VISIBLE)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  report CrimeReport @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  user   User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([reportId])
+  @@index([userId])
+  @@index([status])
+}
